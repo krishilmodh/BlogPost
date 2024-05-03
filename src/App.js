@@ -3,7 +3,6 @@ import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-d
 import Login from './views/Login';
 import Provider, { ProviderContext } from './Provider'; // Ensure correct import
 import BlogPostListing from './views/BlogPostListing';
-import BlogPost from './views/BlogPost';
 
 function App() {
   return (
