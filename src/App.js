@@ -1,25 +1,29 @@
-import logo from './logo.svg';
-import './App.css';
+import React from 'react';
+import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
+import Login from './views/Login';
+import Provider, { ProviderContext } from './Provider'; // Ensure correct import
+import BlogPostListing from './views/BlogPostListing';
+import BlogPost from './views/BlogPost';
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Provider>
+      <Router>
+        <Routes>
+          <Route path='/login' element={<Login />} />
+          <Route path='/blogs' element={<ProtectedRoute />} />
+          <Route path='/blogs/:id' element={<ProtectedRoute />} />
+        </Routes>
+      </Router>
+    </Provider>
   );
+}
+
+// Protected route component to handle login status
+function ProtectedRoute() {
+  const { isLogin } = React.useContext(ProviderContext);
+
+  return isLogin ? <BlogPostListing /> : <Navigate to='/login' />;
 }
 
 export default App;
