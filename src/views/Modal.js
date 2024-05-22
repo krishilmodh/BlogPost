@@ -1,12 +1,14 @@
 import React, { useState, useEffect } from 'react';
 
+// BlogModal component for editing blog details
 const BlogModal = ({ blog, onSave, onClose }) => {
-  const [editedBlog, setEditedBlog] = useState(blog);
+  const [editedBlog, setEditedBlog] = useState(blog); // Local state for edited blog
 
   useEffect(() => {
     setEditedBlog(blog); // Update state when blog prop changes
   }, [blog]);
 
+  // Handle changes in input fields
   const handleChange = (e) => {
     const { name, value } = e.target;
     setEditedBlog(prev => ({ ...prev, [name]: value }));
@@ -26,6 +28,7 @@ const BlogModal = ({ blog, onSave, onClose }) => {
             </button>
           </div>
           <div className="p-6">
+            {/* Input field for blog title */}
             <input
               type="text"
               name="title"
@@ -34,6 +37,7 @@ const BlogModal = ({ blog, onSave, onClose }) => {
               placeholder="Title"
               className="w-full bg-gray-700 text-white placeholder-gray-400 border border-gray-600 rounded-md px-3 py-2 mb-4 focus:outline-none"
             />
+            {/* Textarea for blog description */}
             <textarea
               name="description"
               value={editedBlog.description}
@@ -44,12 +48,14 @@ const BlogModal = ({ blog, onSave, onClose }) => {
             {/* Add more fields as needed */}
           </div>
           <div className="flex justify-end px-6 py-4 bg-gray-700">
+            {/* Save button */}
             <button
               onClick={() => onSave(editedBlog)}
               className="bg-blue-500 hover:bg-blue-600 text-white font-semibold px-4 py-2 rounded mr-2 focus:outline-none"
             >
               Save
             </button>
+            {/* Close button */}
             <button
               onClick={onClose}
               className="text-gray-400 hover:text-white font-semibold px-4 py-2 rounded focus:outline-none"
@@ -63,4 +69,4 @@ const BlogModal = ({ blog, onSave, onClose }) => {
   );
 };
 
-export default BlogModal;
+export default BlogModal; // Exporting BlogModal component
