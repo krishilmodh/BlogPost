@@ -3,35 +3,40 @@ import axios from "../axios";
 import Modal from "./Modal";
 import CreateModal from "./CreateModal";
 
+// BlogPostListing component for displaying blog posts
 const BlogPostListing = () => {
-  const [posts, setPosts] = useState([]);
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [currentBlog, setCurrentBlog] = useState(null);
-  const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
+  const [posts, setPosts] = useState([]); // State for posts
+  const [isModalOpen, setIsModalOpen] = useState(false); // State for modal visibility
+  const [currentBlog, setCurrentBlog] = useState(null); // State for current blog
+  const [isCreateModalOpen, setIsCreateModalOpen] = useState(false); // State for create modal visibility
 
+  // Function to fetch all blog posts
   const fetchAllBlogs = async () => {
-  try {
-    const data = await axios.get("/api/v1/blog");
-    setPosts(data.data); // Updates the posts state with the fetched data
-  } catch (error) {
-    console.error("Error fetching blog posts:", error);
-  }
-};
+    try {
+      const data = await axios.get("/api/v1/blog");
+      setPosts(data.data); // Updates the posts state with the fetched data
+    } catch (error) {
+      console.error("Error fetching blog posts:", error);
+    }
+  };
 
-useEffect(() => {
-  fetchAllBlogs(); // Calls fetchAllBlogs when the component mounts
-}, []);
+  useEffect(() => {
+    fetchAllBlogs(); // Calls fetchAllBlogs when the component mounts
+  }, []);
 
+  // Function to handle post creation
   const handlePostCreated = () => {
     console.log("New blog post created!");
     fetchAllBlogs();
   };
 
+  // Function to handle post editing
   const handleEdit = (blog) => {
     setCurrentBlog(blog);
     setIsModalOpen(true);
   };
 
+  // Function to handle post saving
   const handleSave = async (editedBlog) => {
     try {
       const response = await axios.put(
@@ -47,33 +52,39 @@ useEffect(() => {
     setIsModalOpen(false);
   };
 
-const handleDelete = async (id) => {
-  const isConfirmed = window.confirm("Are you sure you want to delete this blog post?");
-  if (isConfirmed) {
-    try {
-      const response = await axios.delete(`/api/v1/blog/${id}`);
-      if (response.status === 204) {
-        fetchAllBlogs(); // This updates the list without needing a page refresh
+  // Function to handle post deletion
+  const handleDelete = async (id) => {
+    const isConfirmed = window.confirm("Are you sure you want to delete this blog post?");
+    if (isConfirmed) {
+      try {
+        const response = await axios.delete(`/api/v1/blog/${id}`);
+        if (response.status === 204) {
+          fetchAllBlogs(); // This updates the list without needing a page refresh
+        }
+      } catch (error) {
+        console.error("Error deleting blog post:", error);
       }
-    } catch (error) {
-      console.error("Error deleting blog post:", error);
     }
-  }
-};
-  
+  };
+
+  // Function to handle modal closing
   const handleCloseModal = () => {
     setIsModalOpen(false);
   };
 
+  // Function to handle create modal opening
   const handleCreateModalOpen = () => {
     setIsCreateModalOpen(true);
   };
 
+  // Function to handle create modal closing
   const handleCreateModalClose = () => {
     setIsCreateModalOpen(false);
   };
 
+  // Render blog post listing
   return (
+    // JSX code here
     <div className="max-w-8xl  px-14 sm:px-16 lg:px-18 py-12  bg-gray-700">
       <h1 className="text-3xl font-bold text-center mb-8 text-white">Blog Posts</h1>
       <div className="flex justify-end mb-4">
@@ -132,4 +143,4 @@ const handleDelete = async (id) => {
   );
 };
 
-export default BlogPostListing;
+export default BlogPostListing; // Exporting BlogPostListing component
